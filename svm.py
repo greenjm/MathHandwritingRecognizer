@@ -10,18 +10,12 @@ CLF = None
 def findOptimalSVM(data, target):
 	"""
 	Given a dataset and their appropriate targets,
-	user exhaustive grid search to determine the optimal
-	SVM parameters for the set and save the result to CLF_FILENAME
+	uses exhaustive grid search to determine the optimal
+	SVM parameters for the set and saves the result to CLF_FILENAME
 	"""
 	scorer = svm.SVC()
 	params = [{
-				'kernel': ['rbf', 'linear'],
-				'gamma': ['auto', 1e-3, 1e-4, 1e-5, 1e-6],
-				'C': [1, 10, 100, 1000],
-				'probability': [True, False]
-			},
-			{
-				'kernel': ['poly'],
+				'kernel': ['rbf', 'linear', 'poly'],
 				'gamma': ['auto', 1e-3, 1e-4, 1e-5, 1e-6],
 				'C': [1, 10, 100, 1000],
 				'probability': [True, False],
