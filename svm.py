@@ -3,7 +3,7 @@ from sklearn import svm
 from sklearn.model_selection import GridSearchCV
 from sklearn.externals import joblib
 
-CLF_FILENAME = '\optimalCLF.pkl'
+CLF_FILENAME = 'optimalCLF.pkl'
 CLF = None
 
 def findOptimalSVM(data, target):
@@ -24,6 +24,11 @@ def findOptimalSVM(data, target):
 	clf.fit(data, target)
 
 	cwd = os.path.dirname(os.path.realpath(__file__))
+	i = 0
+	filepath = cwd + '\\' + i + CLF_FILENAME
+	while os.path.exists(filepath):
+		i = i + 1
+		filepath = cwd + '\\' + i + CLF_FILENAME
 
 	joblib.dump(clf, cwd + CLF_FILENAME)
 
