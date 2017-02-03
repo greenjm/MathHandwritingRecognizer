@@ -27,3 +27,11 @@ title('original')
 subplot(1,2,2)
 imshow(grayd)
 title('segmented areas of interest')
+%%
+cam = webcam(1)
+img = snapshot(cam);
+imshow(img)
+clear('cam');
+
+%%
+imwrite(img,'test.png')
