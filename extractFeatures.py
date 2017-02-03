@@ -25,10 +25,10 @@ def extractFeatures(self, bwimage):
     
     n = np.count_nonzero(bwimage)
     
-    C1 = P8*P8/n
+    circularity = P8*P8/n
     
     
-    #elongation
+    # elongation
     idx = np.nonzero(bwimage);
     c = idx[1]
     r = idx[0]
@@ -46,5 +46,13 @@ def extractFeatures(self, bwimage):
     val, vects = np.linalg.eig(covMat);
     
     
-    elong = math.sqrt(np.maximum(val)/np.min(np.nonzeros(val)));
+    elongation = math.sqrt(np.maximum(val)/np.min(val.ravel()[flatnonzero(val)]));
+    
+    
+    # principal axis
+    maxidx = np.argmax(val)
+    principalAxisVector = vects[maxidx]
+    
+    
+    return [circularity, elongation, principalAxisVector]
 
