@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
+import math
 
-def extractFeatures(self, bwimage):
+
+def extractFeatures(bwimage):
             
             
     # circularity
@@ -38,15 +40,18 @@ def extractFeatures(self, bwimage):
     
     pows = 2*np.ones(n)
     
-    sigxx = np.sum(np.pow((c-meanx),pows)/n
-    sigyy = np.sum(np.pow((r-meany),pows)/n
+    sigxx = np.sum(np.power((c-meanx),pows))/n
+    sigyy = np.sum(np.power((r-meany),pows))/n
     sigxy = np.sum(np.multiply((r-meany),(c-meanx)))/n
     
     covMat = np.array([[sigxx, sigxy], [sigxy, sigyy]])
     val, vects = np.linalg.eig(covMat);
     
+    maxEigenValue = np.amax(val) 
+    minEigenValue = np.amin(val.ravel()[np.flatnonzero(val)])
     
-    elongation = math.sqrt(np.maximum(val)/np.min(val.ravel()[flatnonzero(val)]));
+    
+    elongation = math.sqrt(maxEigenValue/minEigenValue);
     
     
     # principal axis
