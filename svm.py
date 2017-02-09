@@ -40,8 +40,8 @@ def classify(data):
 	NOTE: data should be an array of feature arrays, even for
 	classifying one object e.g. [[1, 2, 3]]
 	"""
+	global CLF
 	if CLF is None:
 		cwd = os.path.dirname(os.path.realpath(__file__))
-		global CLF
 		CLF = joblib.load(cwd + CLF_FILENAME)
 	return CLF.predict(data)
