@@ -9,8 +9,10 @@ def extractFeatures(bwimage):
     # circularity
     img = bwimage.copy()
     img1, contours, hierarchy = cv2.findContours(img, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
-            
-    B = contours[1]
+    
+    if len(contours)==0:
+        return []
+    B = contours[0]
     C = B[:,0,0]
     l = C.size
     

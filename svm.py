@@ -25,23 +25,24 @@ def findOptimalSVM(data, target):
 
 	cwd = os.path.dirname(os.path.realpath(__file__))
 	i = 0
-	filepath = cwd + '\\' + i + CLF_FILENAME
+	filepath = cwd + '\\' + str(i) + CLF_FILENAME
 	while os.path.exists(filepath):
+		print str(i)
 		i = i + 1
-		filepath = cwd + '\\' + i + CLF_FILENAME
+		filepath = cwd + '\\' + str(i) + CLF_FILENAME
 
 	joblib.dump(clf, cwd + CLF_FILENAME)
 
-def classify(data):
+def classify(data, clf):
 	"""
 	Given a dataset of the same form used for training
-	in findOptimalSVM(), returns a classification array
-	using the optimal SVM.
+	in findOptimalSVM() and a classifier, returns a classification
+	array using the optimal SVM.
 	NOTE: data should be an array of feature arrays, even for
 	classifying one object e.g. [[1, 2, 3]]
 	"""
-	global CLF
-	if CLF is None:
-		cwd = os.path.dirname(os.path.realpath(__file__))
-		CLF = joblib.load(cwd + CLF_FILENAME)
-	return CLF.predict(data)
+	#global CLF
+	#if CLF is None:
+	#	cwd = os.path.dirname(os.path.realpath(__file__))
+	#	CLF = joblib.load(cwd + CLF_FILENAME)
+	return clf.predict(data)
