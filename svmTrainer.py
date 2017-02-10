@@ -44,10 +44,7 @@ def runSVMTrainPipeline(absPath, numClfs):
 						continue
 					features.append(np.hstack(extracted))
 					targets.append(key)
-					#count = count + 1
-			#print "symbol: " + str(symDict[key]) + " numStart: " + str(((len(files)/numClfs)*(i+1)) - (0 + ((len(files)/numClfs)*i))) + " numEnd: " + str(count)
 			sys.stdout.write(".")
-		#print "numStart: " + str(len(symDict) * (((len(files)/numClfs)*(i+1)) - (0 + ((len(files)/numClfs)*i)))) + " numEnd: " + str(len(targets))
 		print "\n\nTraining: " + str(i+1)
 		svm.findOptimalSVM(features, targets)
 		print "\nTrained: " + str(i+1)
@@ -58,7 +55,7 @@ def getClassifierAccuracy():
 	filepath = cwd + '\\' + i + 'optimalCLF.pkl'
 	symDict = di.getDict()
 	features = []
-	targets = []
+	targets = np.array([])
 	for key in symDict:
 		p = os.path.join(absPath, str(symDict[key]))
 		files = listdir(p)
@@ -71,8 +68,13 @@ def getClassifierAccuracy():
 				if len(extracted)==0:
 					continue
 				features.append(np.hstack(extracted))
-				targets.append(key)
+				targets = np.append(targets, key)
 	while os.path.exists(filepath):
 		CLF = joblib.load(filepath)
-		preds = svm.classify(features, CLF)
+		preds = np.array(svm.classify(features, CLF))
+		totalCorrect = np.sum(preds == targets)
+		tot = len(preds)
+		accuracy = totalCorrect / tot
+		print "SVM: " + str(i) + " Accuracy: " + str(accuracy)
 		i = i + 1
+		filepath = cwd + '\\' + i + 'optimalCLF.pkl'
