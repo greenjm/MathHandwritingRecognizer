@@ -34,7 +34,7 @@ def runSVMTrainPipeline(absPath, numClfs):
 				return
 			files = listdir(p)
 			#count = 0
-			for j in range(0 + ((len(files)/numClfs)*i), ((len(files)/numClfs)*(i+1))):
+			for j in range(0 + ((len(files)/numClfs)*i), min(((len(files)/numClfs)*(i+1)), 100)):
 				if os.path.isfile(os.path.join(p, files[j])):
 					img = cv2.imread(os.path.join(p, files[j]), 0)
 					#extracted = ef.extractFeatures(seg.segmentImage(img))
