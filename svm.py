@@ -14,11 +14,11 @@ def findOptimalSVM(data, target):
 	"""
 	scorer = svm.SVC()
 	params = [{
-				'kernel': ['rbf', 'linear', 'poly'],
-				'gamma': ['auto', 1e-3, 1e-4, 1e-5, 1e-6],
-				'C': [1, 10, 100, 1000],
+				'kernel': ['rbf', 'poly'],
+				'gamma': ['auto', 1e-3, 1e-4, 1e-5],
+				'C': [1, 10, 100],
 				'probability': [True, False],
-				'degree': [3, 4, 5]
+				'degree': [3, 4]
 			}]
 	clf = GridSearchCV(scorer, params)
 	clf.fit(data, target)
