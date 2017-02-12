@@ -2,7 +2,7 @@ import Node as n
 
 class Tree(object):
 
-	def __init__(self, bboxes, imgArea):
+	def __init__(self, bboxes):
 		self.root = n.Node(bboxes, None)
 
 	def getRoot(self):
