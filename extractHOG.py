@@ -19,4 +19,4 @@ def extractHOG(image):
     gammaCorrection = 0
     nlevels = 64
     hog = cv2.HOGDescriptor(winSize,blockSize,blockStride,cellSize,nbins,derivAperture,winSigma,histogramNormType,L2HysThreshold,gammaCorrection,nlevels)
-    return hog
+    return hog.compute(image)
