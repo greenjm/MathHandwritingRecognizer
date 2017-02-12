@@ -55,7 +55,7 @@ def runSVMTrainPipeline(absPath, numClfs, useHog):
 		svm.findOptimalSVM(features, targets)
 		print "\nTrained: " + str(i+1)
 
-def getClassifierAccuracy(absPath):
+def getClassifierAccuracy(absPath, numClfs):
 	cwd = os.path.dirname(os.path.realpath(__file__))
 	i = 0
 	filepath = os.path.join(cwd, str(i) + 'optimalCLF.pkl')
@@ -76,14 +76,14 @@ def getClassifierAccuracy(absPath):
 				features.append(np.hstack(extracted))
 				targets = np.append(targets, key)
 		sys.stdout.write(".")
-	while os.path.exists(filepath):
+	for i in range(0, numClfs): #os.path.exists(filepath)
 		CLF = joblib.load(filepath)
 		preds = np.array(svm.classify(features, CLF))
 		totalCorrect = np.sum(preds == targets)
 		tot = len(preds)
 		accuracy = totalCorrect / tot
 		print "SVM: " + str(i) + " Accuracy: " + str(accuracy)
-		i = i + 1
+		#i = i + 1
 		filepath = os.path.join(cwd, str(i) + 'optimalCLF.pkl')
 
 def getVotingAccuracy(absPath, numClfs):

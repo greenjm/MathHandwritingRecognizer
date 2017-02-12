@@ -1,12 +1,12 @@
 import Tree as t
 
-def XYcut(tree):
+def XYcut(bboxes):
 	"""
 	Given a tree with just a root node, performs an
 	X-Y cut of the bounding boxes and
 	returns a tree as the result
 	"""
-
+	tree = t.Tree(bboxes)
 	vChange = True
 	hChange = True
 	level = 0
@@ -31,5 +31,14 @@ def XYcut(tree):
 
 	return tree
 
-def cut(node, vertCut):
-	# TODO
+def cut(tree, node, vertCut):
+	"""
+	Given a node within a tree, preform either
+	vertical or horizontal cutting based on vertCut.
+	New nodes will be added to the tree if changes made,
+	and a boolean is returned if new nodes were added.
+	"""
+	if vertCut:
+		minX = getMin(node, 0)
+		maxX = getMax(node, 2)
+		
