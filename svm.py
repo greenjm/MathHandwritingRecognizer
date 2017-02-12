@@ -2,6 +2,7 @@ import os
 from sklearn import svm
 from sklearn.model_selection import GridSearchCV
 from sklearn.externals import joblib
+import symbolDict as di
 
 CLF_FILENAME = 'optimalCLF.pkl'
 CLF = None
@@ -14,24 +15,22 @@ def findOptimalSVM(data, target):
 	"""
 	scorer = svm.SVC()
 	params = [{
-				'kernel': ['rbf', 'poly'],
-				'gamma': ['auto', 1e-3, 1e-4, 1e-5],
+				'kernel': ['rbf'],
+				'gamma': ['auto', 1e-3, 1e-4, 1e-5, 1e-6],
 				'C': [1, 10, 100],
-				'probability': [True, False],
-				'degree': [3, 4]
+				'probability': [True, False]
 			}]
 	clf = GridSearchCV(scorer, params)
 	clf.fit(data, target)
 
 	cwd = os.path.dirname(os.path.realpath(__file__))
 	i = 0
-	filepath = cwd + '\\' + str(i) + CLF_FILENAME
+	filepath = os.path.join(cwd, str(i) + CLF_FILENAME)
 	while os.path.exists(filepath):
-		print str(i)
 		i = i + 1
-		filepath = cwd + '\\' + str(i) + CLF_FILENAME
+		filepath = os.path.join(cwd, str(i) + CLF_FILENAME)
 
-	joblib.dump(clf, cwd + CLF_FILENAME)
+	joblib.dump(clf, filepath)
 
 def classify(data, clf):
 	"""
@@ -46,3 +45,26 @@ def classify(data, clf):
 	#	cwd = os.path.dirname(os.path.realpath(__file__))
 	#	CLF = joblib.load(cwd + CLF_FILENAME)
 	return clf.predict(data)
+
+def voteClassify(data, numClfs):
+	"""
+	Use the numClfs to classify the data through voting
+	e.g. numClfs will use 0optimalCLF.pkl, 1, and 2.
+	"""
+	clfs = []
+	preds = []
+	res = []
+	accuracies = di.getAccuracies()
+	cwd = os.path.dirname(os.path.realpath(__file__))
+	for i in range(0, numClfs):
+		filepath = os.path.join(cwd, str(i) + CLF_FILENAME)
+		clfs.append(joblib.load(filepath))
+	for clf in clfs:
+		preds.append(clf.predict(data))
+	for i in range(0, len(data)):
+		votes = dict()
+		for j in range(0, len(clfs)):
+			vote = preds[j][i]
+			votes[vote] = votes.get(vote, 0) + (accuracies[j] * 1)
+		res.append(max(votes, key = lambda x: votes.get(x)))
+	return res

@@ -86,3 +86,12 @@ def getDict():
 	d[81] = 'z'
 
 	return d
+
+def getAccuracies():
+	d = {}
+	d[0] = 0.3809
+	d[1] = 0.3811
+	d[2] = 0.3941
+	d[3] = 0.3784
+	d[4] = 0.4150
+	return d

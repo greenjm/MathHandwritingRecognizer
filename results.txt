@@ -1,0 +1,7 @@
+SVM: '0optimalCLF.pkl' Accuracy: 0.3809
+SVM: '1optimalCLF.pkl' Accuracy: 0.3811
+SVM: '2optimalCLF.pkl' Accuracy: 0.3941
+SVM: '3optimalCLF.pkl' Accuracy: 0.3784
+SVM: '4optimalCLF.pkl' Accuracy: 0.4150
+
+Voting with 0-4. Accuracy: 0.4724
