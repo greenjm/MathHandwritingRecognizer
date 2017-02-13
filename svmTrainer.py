@@ -11,7 +11,7 @@ import extractHOG as hog
 import svm
 from sklearn.externals import joblib
 
-def runSVMTrainPipeline(absPath, numClfs, useHog):
+def runSVMTrainPipeline(absPath, numClfs, useHog, fileId, incrementor):
 	"""
 	Given the absolute path of the training images folder (containing all of
 	the subfolders) and the number of classifiers that should be trained,
@@ -36,7 +36,7 @@ def runSVMTrainPipeline(absPath, numClfs, useHog):
 				return
 			files = listdir(p)
 			#count = 0
-			for j in range(0 + ((len(files)//numClfs)*i), min(((len(files)//numClfs)*(i+1)), ((len(files)//numClfs)*i) + 40)):
+			for j in range(0 + ((len(files)//5)*incrementor), min(((len(files)//5)*(incrementor+1)), ((len(files)//5)*incrementor) + 100)):
 				if os.path.isfile(os.path.join(p, files[j])):
 					img = cv2.imread(os.path.join(p, files[j]), 0)
 					#extracted = ef.extractFeatures(seg.segmentImage(img))
@@ -50,11 +50,11 @@ def runSVMTrainPipeline(absPath, numClfs, useHog):
 					features.append(np.hstack(extracted))
 					targets.append(key)
 			sys.stdout.write(".")
-		print "\n\nTraining: " + str(i+1)
-		svm.findOptimalSVM(features, targets)
-		print "\nTrained: " + str(i+1)
+		print "\n\nTraining: " + str(fileId)
+		svm.findOptimalSVM(features, targets, fileId)
+		print "\nTrained: " + str(fileId)
 
-def getClassifierAccuracy(absPath, numClfs):
+def getClassifierAccuracy(absPath, numClfs, start):
 	cwd = os.path.dirname(os.path.realpath(__file__))
 	i = 0
 	filepath = os.path.join(cwd, str(i) + 'optimalCLF.pkl')
@@ -64,7 +64,7 @@ def getClassifierAccuracy(absPath, numClfs):
 	for key in symDict:
 		p = os.path.join(absPath, str(symDict[key]))
 		files = listdir(p)
-		for j in range(0, min(len(files), 400)):
+		for j in range(0, len(files)//10):
 			if os.path.isfile(os.path.join(p, files[j])):
 				img = cv2.imread(os.path.join(p, files[j]), 0)
 				#extracted = ef.extractFeatures(seg.segmentImage(img))
@@ -75,9 +75,10 @@ def getClassifierAccuracy(absPath, numClfs):
 				features.append(np.hstack(extracted))
 				targets = np.append(targets, key)
 		sys.stdout.write(".")
-	for i in range(0, numClfs): #os.path.exists(filepath)
+	for i in range(start, start+numClfs): #os.path.exists(filepath)
 		filepath = os.path.join(cwd, str(i) + 'optimalCLF.pkl')
 		CLF = joblib.load(filepath)
+		print "Finding accuracy for SVM: " + str(i)
 		preds = np.array(svm.classify(features, CLF))
 		totalCorrect = np.sum(preds == targets)
 		tot = len(preds)
@@ -85,7 +86,7 @@ def getClassifierAccuracy(absPath, numClfs):
 		print "\nSVM: " + str(i) + " Accuracy: " + str(accuracy)
 		#i = i + 1
 
-def getVotingAccuracy(absPath, numClfs):
+def getVotingAccuracy(absPath, numClfs, start):
 	cwd = os.path.dirname(os.path.realpath(__file__))
 	i = 0
 	filepath = os.path.join(cwd, str(i) + 'optimalCLF.pkl')
@@ -95,20 +96,20 @@ def getVotingAccuracy(absPath, numClfs):
 	for key in symDict:
 		p = os.path.join(absPath, str(symDict[key]))
 		files = listdir(p)
-		for j in range(0, len(files)):
+		for j in range(0, len(files)//10):
 			if os.path.isfile(os.path.join(p, files[j])):
 				img = cv2.imread(os.path.join(p, files[j]), 0)
 				res, bw = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY_INV)
-				extracted = ef.extractFeatures(bw)
+				extracted = hog.extractHOG(bw)
 				if len(extracted)==0:
 					continue
 				features.append(np.hstack(extracted))
 				targets = np.append(targets, key)
 		sys.stdout.write(".")
 	print "\nVoting"
-	preds = np.array(svm.voteClassify(features, numClfs))
+	preds = np.array(svm.voteClassify(features, numClfs, start))
 	totalCorrect = np.sum(preds == targets)
 	tot = len(preds)
 	accuracy = totalCorrect / tot
-	print "Voting Accuracy: " + str(accuracy)
+	print "\n\nVoting Accuracy: " + str(accuracy)
 
