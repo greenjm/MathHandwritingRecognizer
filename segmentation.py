@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-# # read in image
-# img = cv2.imread('test.png',0)
+# read in image
+img = cv2.imread('test.png',0)
 
 ########################  Processing  ###############################
 
@@ -31,3 +31,26 @@ def segmentImage(img):
 # cv2.imwrite('IMAG1480_12.jpg', opened)
 
 
+# #Connected components, symbols ends up with binary masks of each component. Not minimized BBox. Original size of image
+# output = cv2.connectedComponentsWithStats(opened, 8, cv2.CV_32S)
+# labels = output[1]
+# symbols = []
+# for r in range(output[0]):
+# 	symbols.append(labels)
+# for x in range(len(labels)):
+# 	for y in range(len(labels[x])):
+# 		for r in range(output[0]):
+# 			if r == y:
+# 				symbols[r][x][y] = 1
+# 			else:
+# 				symbols[r][x][y] = 0
+
+
+# for r in range(output[0]):
+# 	cv2.imshow(str(r), symbols[r])
+
+# for x in range(len(symbols[3])):
+# 	print(symbols[3][x])
+
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
