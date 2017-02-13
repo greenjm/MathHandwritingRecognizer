@@ -41,4 +41,28 @@ def cut(tree, node, vertCut):
 	if vertCut:
 		minX = getMin(node, 0)
 		maxX = getMax(node, 2)
-		
+		for i in range(minX, maxX):
+			
+
+
+def getMin(node, bboxIndex):
+	"""
+	Returns the minimum value of the given bboxIndex
+	in all of the nodes bounding boxes
+	"""
+	bboxes = node.getBBoxes()
+	minimum = bboxes[0][bboxIndex]
+	for i in range(1, len(bboxes)):
+		minimum = min(minimum, bboxes[i][bboxIndex])
+	return minimum
+
+def getMax(node, bboxIndex):
+	"""
+	Returns the maximum value of the given bboxIndex
+	in all of the nodes bounding boxes
+	"""
+	bboxes = node.getBBoxes()
+	maximum = bboxes[0][bboxIndex]
+	for i in range(1, len(bboxes)):
+		maximum = max(maximum, bboxes[i][bboxIndex])
+	return maximum
