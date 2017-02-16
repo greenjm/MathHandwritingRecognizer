@@ -41,7 +41,7 @@ def resizedBoundBox(symbolArray):
         print(i)
         img = symbolArray[i]
         (minX, minY, maxX, maxY) = boundingBox(img)
-        character = img[minY:maxY][minX:maxX]
+        character = img[minY:maxY+1][minX:maxX+1]
 
         characters[i] = cv2.resize(character,(45,45))
     return characters
