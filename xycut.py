@@ -2,7 +2,7 @@ import Tree as t
 
 def XYcut(bboxes):
 	"""
-	Given a tree with just a root node, performs an
+	Given a list of bounding boxes, performs an
 	X-Y cut of the bounding boxes and
 	returns a tree as the result
 	"""
