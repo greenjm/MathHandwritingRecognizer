@@ -7,21 +7,42 @@ Created on Sun Feb 12 21:37:35 2017
 import cv2
 import numpy as np
 
+def boundingBox(img):
+    minX = len(img)
+    maxX = 0
+    minY = len(img[0])
+    maxY = 0
+
+    for x in range(len(img)):
+        for y in range(len(img[x])):
+            if img[x][y] == 1:
+                if x < minX:
+                    minX = x
+                if x > maxX:
+                    maxX = x
+                if y < minY:
+                    minY = y
+                if y > maxY:
+                    maxY = y
+    ret = (minX, minY, maxX, maxY)
+    return ret
+
 def rawBoundingBox(symbolArray):
     boxes = []
     for i in range(len(symbolArray)):
         img = symbolArray[i]
-        [x,y,w,h] = cv2.boundingRect(img)
-        boxes[i] = [x,y,x+w-1,y+h-1]
+        (minX, minY, maxX, maxY) = boundingBox(img)
+        boxes.append( [minX, minY, maxX, maxY] )
     return boxes
     
 def resizedBoundBox(symbolArray):
     characters = []
     for i in range(len(symbolArray)):
-        print i
+        print(i)
         img = symbolArray[i]
-        [x,y,w,h] = cv2.boundingRect(img)
-        character = img[y:y+h,x:x+w]
+        (minX, minY, maxX, maxY) = boundingBox(img)
+        character = img[minY:maxY][minX:maxX]
+
         characters[i] = cv2.resize(character,(45,45))
     return characters
         
