@@ -9,9 +9,26 @@ import svm
 import symbolDict as d
 
 def main():
+    
+
+        
 	#Load Image
-	imgPath = sys.argv[1]
-	img = cv2.imread(imgPath, 0)
+	if len(sys.argv)==1:
+		vc = cv2.VideoCapture(1)
+		if vc.isOpened():
+			while True:
+				rval, frame = vc.read()
+				cv2.imshow("feed me a problem", frame)
+				key = cv2.waitKey(20)
+				if key != -1: 
+					cv2.destroyWindow("feed me a problem")
+					vc.release()
+					break		
+			img = frame
+			img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	else:
+		imgPath = sys.argv[1]
+		img = cv2.imread(imgPath, 0)
 	display = raw_input("Image loaded. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
@@ -31,6 +48,7 @@ def main():
 	conn = cc.connectedComponents(segmented)
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
+	print(conn.ccCount)
 	raw_input("Found connected components. Press any button to continue.")
 
 	#Bounding Boxes (raw and resized)
