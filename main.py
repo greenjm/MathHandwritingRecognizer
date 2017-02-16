@@ -1,5 +1,6 @@
 import sys
 import cv2
+import numpy as np
 import segmentation as seg
 import connectedComponents as cc
 import boundingBox as bb

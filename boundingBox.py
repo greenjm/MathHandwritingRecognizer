@@ -38,12 +38,13 @@ def rawBoundingBox(symbolArray):
 def resizedBoundBox(symbolArray):
     characters = []
     for i in range(len(symbolArray)):
-        print(i)
         img = symbolArray[i]
         (minX, minY, maxX, maxY) = boundingBox(img)
         character = img[minY:maxY+1][minX:maxX+1]
 
-        characters[i] = cv2.resize(character,(45,45))
+        character = character.astype(float)
+
+        characters.append(cv2.resize(character,(45,45)))
     return characters
         
 #a = np.array([[[0,0,0,1,1,1,1,0,0,0,0,0,0],
