@@ -23,12 +23,9 @@ class connectedComponents:
 		for r in range(self.ccCount):
 			symbols.append(labels)
 
-		for r in range(1, self.ccCount+1):
+		for r in range(1, self.ccCount):
 			symbols[r-1] = np.where(labels != r, 0, labels)
 			symbols[r-1] = np.where(symbols[r-1] == r, 1, symbols[r-1])
 
-		for symb in symbols:
-			cv2.imshow('winname', np.multiply(symb, 255))
-			cv2.waitKey(0)
 		self.symbols = symbols
 		return self.symbols

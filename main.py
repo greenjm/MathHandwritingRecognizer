@@ -12,7 +12,7 @@ def main():
 	#Load Image
 	imgPath = sys.argv[1]
 	img = cv2.imread(imgPath, 0)
-	display = input("Image loaded. Display? (y/n): ")
+	display = raw_input("Image loaded. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow("Original", img)
@@ -20,7 +20,7 @@ def main():
 
 	#Segment Image
 	segmented = seg.segmentImage(img)
-	display = input("Image has been segmented. Display? (y/n): ")
+	display = raw_input("Image has been segmented. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('Segmented', segmented)
@@ -31,7 +31,7 @@ def main():
 	conn = cc.connectedComponents(segmented)
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
-	input("Found connected components. Press any button to continue.")
+	raw_input("Found connected components. Press any button to continue.")
 
 	#Bounding Boxes (raw and resized)
 	print("\nGathering bounding boxes...")
@@ -46,31 +46,31 @@ def main():
 		features.append(np.hstack(
 			np.array(
 				hog.extractHOG(
-					np.uint8(resized[i])#.astype(np.uint8)
+					np.uint8(resized[i])
 				)
 			)
 		))
-	input("All features extracted. Press any button to begin classifying")
+	raw_input("All features extracted. Press any button to begin classifying")
 
 	#SVM Classification
 	syms = d.getDict()
 	print("\nSending features for classification by voting...")
 	preds = svm.voteClassify(features, 5, 5)
-	display = input("Raw classification complete. Display? (y/n): ")
+	display = raw_input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
 		print("\n--------------- RAW CLASSIFICATIONS ---------------")
 		for i in range(0, len(preds)):
 			print("Component:", i+1, "Classification:", syms[preds[i]])
 		print("-------------------- DONE --------------------")
 
-	doGrammar = input("Classification done. Proceed with grammar? (y/n)")
+	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
 		print("TODO")
 		#XY-cut
 		#Symbol combination
 
 	#Program Ended
-	input("End of program. Press any button to quit.")
+	raw_input("End of program. Press any button to quit.")
 
 if __name__=="__main__":
 	main()

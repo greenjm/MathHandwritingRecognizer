@@ -8,8 +8,6 @@ import cv2
 import numpy as np
 
 def boundingBox(img):
-    cv2.imshow('winname', np.multiply(img, 10000))
-    cv2.waitKey(0)
     minX = len(img)
     maxX = 0
     minY = len(img[0])
@@ -40,9 +38,9 @@ def rawBoundingBox(symbolArray):
 def resizedBoundBox(symbolArray):
     characters = []
     for i in range(len(symbolArray)):
-        img = symbolArray[i]
+        img = np.array(symbolArray[i])
         (minX, minY, maxX, maxY) = boundingBox(img)
-        character = img[minY:maxY+1][minX:maxX+1]
+        character = img[minX:maxX+1, minY:maxY+1]
 
         character = character.astype(float)
 
