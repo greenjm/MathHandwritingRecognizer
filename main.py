@@ -12,7 +12,7 @@ def main():
 	#Load Image
 	imgPath = sys.argv[1]
 	img = cv2.imread(imgPath, 0)
-	display = raw_input("Image loaded. Display? (y/n): ")
+	display = input("Image loaded. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow("Original", img)
@@ -20,27 +20,27 @@ def main():
 
 	#Segment Image
 	segmented = seg.segmentImage(img)
-	display = raw_input("Image has been segmented. Display? (y/n): ")
+	display = input("Image has been segmented. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('Segmented', segmented)
 		cv2.waitKey(1)
 
 	#Connected Components
-	print "Gathering connected components..."
+	print("Gathering connected components...")
 	conn = cc.connectedComponents(segmented)
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
-	raw_input("Found connected components. Press any button to continue.")
+	input("Found connected components. Press any button to continue.")
 
 	#Bounding Boxes (raw and resized)
-	print "\nGathering bounding boxes..."
+	print("\nGathering bounding boxes...")
 	bboxes = bb.rawBoundingBox(symbols)
-	print "\nResizing for classification..."
+	print("\nResizing for classification...")
 	resized = bb.resizedBoundBox(symbols)
 
 	#Extract HOG
-	print "\nExtracting HOG features for all components..."
+	print("\nExtracting HOG features for all components...")
 	features = []
 	for i in range(0, len(resized)):
 		features.append(np.hstack(
@@ -50,27 +50,27 @@ def main():
 				)
 			)
 		))
-	raw_input("All features extracted. Press any button to begin classifying")
+	input("All features extracted. Press any button to begin classifying")
 
 	#SVM Classification
 	syms = d.getDict()
-	print "\nSending features for classification by voting..."
+	print("\nSending features for classification by voting...")
 	preds = svm.voteClassify(features, 5, 5)
-	display = raw_input("Raw classification complete. Display? (y/n): ")
+	display = input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
-		print "\n--------------- RAW CLASSIFICATIONS ---------------"
+		print("\n--------------- RAW CLASSIFICATIONS ---------------")
 		for i in range(0, len(preds)):
-			print "Component:", i+1, "Classification:", syms[preds[i]]
-		print "-------------------- DONE --------------------"
+			print("Component:", i+1, "Classification:", syms[preds[i]])
+		print("-------------------- DONE --------------------")
 
-	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")
+	doGrammar = input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
-		print "TODO"
+		print("TODO")
 		#XY-cut
 		#Symbol combination
 
 	#Program Ended
-	raw_input("End of program. Press any button to quit.")
+	input("End of program. Press any button to quit.")
 
 if __name__=="__main__":
 	main()

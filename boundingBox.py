@@ -8,6 +8,8 @@ import cv2
 import numpy as np
 
 def boundingBox(img):
+    cv2.imshow('winname', np.multiply(img, 10000))
+    cv2.waitKey(0)
     minX = len(img)
     maxX = 0
     minY = len(img[0])
