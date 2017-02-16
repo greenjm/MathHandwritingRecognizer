@@ -46,7 +46,7 @@ def main():
 		features.append(np.hstack(
 			np.array(
 				hog.extractHOG(
-					resized[i]
+					np.uint8(resized[i])#.astype(np.uint8)
 				)
 			)
 		))
