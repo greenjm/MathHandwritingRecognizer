@@ -115,6 +115,7 @@ def main():
 				results.append( str(syms[bboxMap[tuple(box)]] ) ) 
 
 		mathExpression = ''.join(results)
+		mathExpression = mathExpression.replace('X','*')
 		mathAnswer = eval(mathExpression)
 		print( '{}={}'.format(mathExpression,mathAnswer) )
 		#XY-cut
