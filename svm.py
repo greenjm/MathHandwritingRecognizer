@@ -68,5 +68,5 @@ def voteClassify(data, numClfs, start):
 			vote = clfs[j-start].predict([data[i]])[0]
 			votes[vote] = votes.get(vote, 0) + (accuracies[j] * 1)
 		res.append(max(votes, key = lambda x: votes.get(x)))
-		sys.stdout.write(".")
+		#sys.stdout.write(".")
 	return res

@@ -4,4 +4,4 @@ import svmTrainer as trainer
 
 #trainer.getClassifierAccuracy("C:\Users\Josh\Downloads\extracted_images\extracted_images", 1, 9)
 
-trainer.getVotingAccuracy("C:\Users\Josh\Downloads\extracted_images\extracted_images", 5, 5)
+trainer.getVotingAccuracy("C:\Users\greenjm\Downloads\extracted_images\extracted_images", 5, 5)

@@ -10,6 +10,8 @@ import extractFeatures as ef
 import extractHOG as hog
 import svm
 from sklearn.externals import joblib
+from sklearn.metrics import confusion_matrix
+import csv
 
 def runSVMTrainPipeline(absPath, numClfs, useHog, fileId, incrementor):
 	"""
@@ -112,4 +114,10 @@ def getVotingAccuracy(absPath, numClfs, start):
 	tot = len(preds)
 	accuracy = totalCorrect / tot
 	print "\n\nVoting Accuracy: " + str(accuracy)
+	confusionMatrix(preds, targets)
 
+def confusionMatrix(preds, targets):
+	cm = confusion_matrix(targets, preds)
+	with open("cm.csv", "wb") as f:
+		writer = csv.writer(f)
+		writer.writerows(cm)
