@@ -30,7 +30,7 @@ def main():
 	else:
 		imgPath = sys.argv[1]
 		img = cv2.imread(imgPath, 0)
-	display = input("Image loaded. Display? (y/n): ")
+	display = raw_input("Image loaded. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow("Original", img)
@@ -38,7 +38,7 @@ def main():
 
 	#Segment Image
 	segmented = seg.segmentImage(img)
-	display = input("Image has been segmented. Display? (y/n): ")
+	display = raw_input("Image has been segmented. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('Segmented', segmented)
@@ -49,23 +49,23 @@ def main():
 	conn = cc.connectedComponents(segmented)
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
-	print(conn.ccCount)
-	input("Found connected components. Press any button to continue.")
+	# print(conn.ccCount)
+	raw_input("Found connected components. Press any button to continue.")
 
 	#Bounding Boxes (raw and resized)
 	print("\nGathering bounding boxes...")
 	bboxes = bb.rawBoundingBox(symbols)
-	print("\nResizing for classification...")
-	resized = bb.resizedBoundBox(symbols)
 	bounded = cv2.cvtColor(segmented,cv2.COLOR_GRAY2BGR)
 	for i in range(len(bboxes)):
 		minX, minY, maxX, maxY = bboxes[i]
-		bounded = cv2.rectangle(bounded,(minY, minX),(maxY,maxX),(0,0,102),3,cv2.LINE_8)
-	display = input("Bounding Boxes calculated. Display? (y/n): ")
+		bounded = cv2.rectangle(bounded,(minY, minX),(maxY,maxX),(0,0,200),3,cv2.LINE_8)
+	display = raw_input("Bounding Boxes calculated. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('BoundingBoxes', bounded)
-		cv2.waitKey(1)		
+		cv2.waitKey(1)	
+	print("\nResizing for classification...")
+	resized = bb.resizedBoundBox(symbols)	
 
 
 	#Extract HOG
@@ -79,26 +79,26 @@ def main():
 				)
 			)
 		))
-	input("All features extracted. Press any button to begin classifying")
+	raw_input("All features extracted. Press any button to begin classifying")
 
 	#SVM Classification
 	syms = d.getDict()
 	print("\nSending features for classification by voting...")
 	preds = svm.voteClassify(features, 5, 5)
-	display = input("Raw classification complete. Display? (y/n): ")
+	display = raw_input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
-		print("\n--------------- RAW CLASSIFICATIONS ---------------")
+		# print("\n--------------- RAW CLASSIFICATIONS ---------------")
 		labeled = bounded
 		for i in range(0, len(preds)):
-			print("Component:", i+1, "Classification:", syms[preds[i]])
+			# print("Component:", i+1, "Classification:", syms[preds[i]])
 			minX, minY, maxX, maxY = bboxes[i]
-			labeled = cv2.putText(labeled,str(syms[preds[i]]),(minY, maxX+30),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,102),3,cv2.LINE_8,False)
+			labeled = cv2.putText(labeled,str(syms[preds[i]]),(minY, maxX+30),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,200),3,cv2.LINE_8,False)
 		cv2.startWindowThread()
 		cv2.imshow('Predictions', labeled)
 		cv2.waitKey(1)	
-		print("-------------------- DONE --------------------")
+		# print("-------------------- DONE --------------------")
 
-	doGrammar = input("Classification done. Proceed with grammar? (y/n)")
+	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
 		#XY-cut
 		bboxMap = {}
@@ -108,9 +108,9 @@ def main():
 		cutArr = cutted.getLeafs(cutted.root)
 		results = []
 		b = None
-		print(len(cutArr))
+		# print(len(cutArr))
 		for i in range(len(cutArr)):
-			print(cutArr[i].getBBoxes())
+			# print(cutArr[i].getBBoxes())
 			for box in cutArr[i].getBBoxes():
 				results.append( str(syms[bboxMap[tuple(box)]] ) ) 
 
@@ -121,7 +121,7 @@ def main():
 		#Symbol combination
 
 	#Program Ended
-	input("End of program. Press any button to quit.")
+	raw_input("End of program. Press any button to quit.")
 
 if __name__=="__main__":
 	main()
