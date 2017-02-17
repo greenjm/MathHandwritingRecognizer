@@ -100,6 +100,7 @@ def main():
 
 	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
+		#XY-cut
 		bboxMap = {}
 		for i in range(0, len(bboxes)):
 			bboxMap[tuple(bboxes[i])] = preds[i]
@@ -114,7 +115,6 @@ def main():
 				results.append(syms[bboxMap[tuple(box)]])
 
 		print(results)
-		#XY-cut
 		#Symbol combination
 
 	#Program Ended

@@ -50,18 +50,12 @@ def resizedBoundBox(symbolArray):
             character = cv2.resize(character,(int(math.floor(fy*w)),45))
             left = np.zeros((45,int(math.floor((45-fy*w)/2))))
             right = np.zeros((45,int(math.ceil((45-fy*w)/2))))
-            print left.shape
-            print right.shape
-            print character.shape
             character = np.hstack((left,character,right))
         elif w>h:
             fx = 45.0/w
             character = cv2.resize(character,(45,int(math.floor(fx*h))))
             top = np.zeros((int(math.floor((45-fx*h)/2)),45))
             bot = np.zeros((int(math.ceil((45-fx*h)/2)),45))
-            print top.shape
-            print bot.shape
-            print character.shape
             character = np.vstack((top.astype(int),character.astype(int),bot.astype(int)))
 
 
