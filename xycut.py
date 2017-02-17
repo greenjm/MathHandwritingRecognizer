@@ -82,13 +82,13 @@ def getVThreshold(bboxes):
 	avg = 0
 	for box in bboxes:
 		avg = avg + (box[2] - box[0])
-	return 0.5 * (avg / len(bboxes))
+	return 0.25 * (avg / len(bboxes))
 
 def getHThreshold(bboxes):
 	avg = 0
 	for box in bboxes:
 		avg = avg + (box[3] - box[1])
-	return 0.5 * (avg / len(bboxes))
+	return 0.25 * (avg / len(bboxes))
 
 
 def getMin(node, bboxIndex):
