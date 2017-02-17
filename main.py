@@ -30,7 +30,7 @@ def main():
 	else:
 		imgPath = sys.argv[1]
 		img = cv2.imread(imgPath, 0)
-	display = raw_input("Image loaded. Display? (y/n): ")
+	display = input("Image loaded. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow("Original", img)
@@ -38,7 +38,7 @@ def main():
 
 	#Segment Image
 	segmented = seg.segmentImage(img)
-	display = raw_input("Image has been segmented. Display? (y/n): ")
+	display = input("Image has been segmented. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('Segmented', segmented)
@@ -50,7 +50,7 @@ def main():
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
 	print(conn.ccCount)
-	raw_input("Found connected components. Press any button to continue.")
+	input("Found connected components. Press any button to continue.")
 
 	#Bounding Boxes (raw and resized)
 	print("\nGathering bounding boxes...")
@@ -61,7 +61,7 @@ def main():
 	for i in range(len(bboxes)):
 		minX, minY, maxX, maxY = bboxes[i]
 		bounded = cv2.rectangle(bounded,(minY, minX),(maxY,maxX),(0,0,102),3,cv2.LINE_8)
-	display = raw_input("Bounding Boxes calculated. Display? (y/n): ")
+	display = input("Bounding Boxes calculated. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('BoundingBoxes', bounded)
@@ -79,13 +79,13 @@ def main():
 				)
 			)
 		))
-	raw_input("All features extracted. Press any button to begin classifying")
+	input("All features extracted. Press any button to begin classifying")
 
 	#SVM Classification
 	syms = d.getDict()
 	print("\nSending features for classification by voting...")
 	preds = svm.voteClassify(features, 5, 5)
-	display = raw_input("Raw classification complete. Display? (y/n): ")
+	display = input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
 		print("\n--------------- RAW CLASSIFICATIONS ---------------")
 		labeled = bounded
@@ -98,7 +98,7 @@ def main():
 		cv2.waitKey(1)	
 		print("-------------------- DONE --------------------")
 
-	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")
+	doGrammar = input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
 		bboxMap = {}
 		for i in range(0, len(bboxes)):
@@ -111,14 +111,16 @@ def main():
 		for i in range(len(cutArr)):
 			print(cutArr[i].getBBoxes())
 			for box in cutArr[i].getBBoxes():
-				results.append(syms[bboxMap[tuple(box)]])
+				results.append( str(syms[bboxMap[tuple(box)]] ) ) 
 
-		print(results)
+		mathExpression = ''.join(results)
+		mathAnswer = eval(mathExpression)
+		print( '{}={}'.format(mathExpression,mathAnswer) )
 		#XY-cut
 		#Symbol combination
 
 	#Program Ended
-	raw_input("End of program. Press any button to quit.")
+	input("End of program. Press any button to quit.")
 
 if __name__=="__main__":
 	main()
