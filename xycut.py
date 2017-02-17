@@ -16,14 +16,16 @@ def XYcut(bboxes):
 		hChange = False
 		nodes = tree.getTreeLevel(level)
 		for node in nodes:
-			changed = cut(tree, node, True, 5)
+			vThreshold = getVThreshold(node.getBBoxes())
+			changed = cut(tree, node, True, vThreshold)
 			if changed:
 				vChange = True
 		if vChange:
 			level = level + 1
 		nodes = tree.getTreeLevel(level)
 		for node in nodes:
-			changed = cut(tree, node, False, 5)
+			hThreshold = getHThreshold(node.getBBoxes())
+			changed = cut(tree, node, False, hThreshold)
 			if changed:
 				hChange = True
 		if hChange:
@@ -75,6 +77,18 @@ def cut(tree, node, vertCut, threshold):
 		if changeFlag:
 			tree.addNode(node, bboxes)
 	return changeFlag
+
+def getVThreshold(bboxes):
+	avg = 0
+	for box in bboxes:
+		avg = avg + (box[2] - box[0])
+	return 0.5 * (avg / len(bboxes))
+
+def getHThreshold(bboxes):
+	avg = 0
+	for box in bboxes:
+		avg = avg + (box[3] - box[1])
+	return 0.5 * (avg / len(bboxes))
 
 
 def getMin(node, bboxIndex):
