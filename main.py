@@ -7,14 +7,15 @@ import boundingBox as bb
 import extractHOG as hog
 import svm
 import symbolDict as d
+import xycut
+import Tree
+import Node
 
 def main():
     
-
-        
 	#Load Image
 	if len(sys.argv)==1:
-		vc = cv2.VideoCapture(1)
+		vc = cv2.VideoCapture(0)
 		if vc.isOpened():
 			while True:
 				rval, frame = vc.read()
@@ -29,7 +30,7 @@ def main():
 	else:
 		imgPath = sys.argv[1]
 		img = cv2.imread(imgPath, 0)
-	display = raw_input("Image loaded. Display? (y/n): ")
+	display = input("Image loaded. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow("Original", img)
@@ -37,7 +38,7 @@ def main():
 
 	#Segment Image
 	segmented = seg.segmentImage(img)
-	display = raw_input("Image has been segmented. Display? (y/n): ")
+	display = input("Image has been segmented. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('Segmented', segmented)
@@ -49,7 +50,7 @@ def main():
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
 	print(conn.ccCount)
-	raw_input("Found connected components. Press any button to continue.")
+	input("Found connected components. Press any button to continue.")
 
 	#Bounding Boxes (raw and resized)
 	print("\nGathering bounding boxes...")
@@ -60,7 +61,7 @@ def main():
 	for i in range(len(bboxes)):
 		minX, minY, maxX, maxY = bboxes[i]
 		bounded = cv2.rectangle(bounded,(minY, minX),(maxY,maxX),(0,0,102),3,cv2.LINE_8)
-	display = raw_input("Bounding Boxes calculated. Display? (y/n): ")
+	display = input("Bounding Boxes calculated. Display? (y/n): ")
 	if display=="y":
 		cv2.startWindowThread()
 		cv2.imshow('BoundingBoxes', bounded)
@@ -78,13 +79,13 @@ def main():
 				)
 			)
 		))
-	raw_input("All features extracted. Press any button to begin classifying")
+	input("All features extracted. Press any button to begin classifying")
 
 	#SVM Classification
 	syms = d.getDict()
 	print("\nSending features for classification by voting...")
 	preds = svm.voteClassify(features, 5, 5)
-	display = raw_input("Raw classification complete. Display? (y/n): ")
+	display = input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
 		print("\n--------------- RAW CLASSIFICATIONS ---------------")
 		labeled = bounded
@@ -97,14 +98,22 @@ def main():
 		cv2.waitKey(1)	
 		print("-------------------- DONE --------------------")
 
-	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")
+	doGrammar = input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
-		print("TODO")
+		cutted = xycut.XYcut(bboxes)
+		cutArr = cutted.getLeafs(cutted.root)
+		b = None
+		for i in range(len(cutArr)):
+			b = cutArr[i].bboxes[0]
+			index = bboxes.index(b)
+			cutArr[i] = syms[preds[i]]
+
+		print(cutArr)
 		#XY-cut
 		#Symbol combination
 
 	#Program Ended
-	raw_input("End of program. Press any button to quit.")
+	input("End of program. Press any button to quit.")
 
 if __name__=="__main__":
 	main()
