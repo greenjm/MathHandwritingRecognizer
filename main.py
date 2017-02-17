@@ -100,6 +100,7 @@ def main():
 
 	doGrammar = input("Classification done. Proceed with grammar? (y/n)")
 	if doGrammar=="y":
+		#XY-cut
 		bboxMap = {}
 		for i in range(0, len(bboxes)):
 			bboxMap[tuple(bboxes[i])] = preds[i]
