@@ -56,6 +56,16 @@ def main():
 	bboxes = bb.rawBoundingBox(symbols)
 	print("\nResizing for classification...")
 	resized = bb.resizedBoundBox(symbols)
+	bounded = cv2.cvtColor(segmented,cv2.COLOR_GRAY2BGR)
+	for i in range(len(bboxes)):
+		minX, minY, maxX, maxY = bboxes[i]
+		bounded = cv2.rectangle(bounded,(minY, minX),(maxY,maxX),(0,0,102),3,cv2.LINE_8)
+	display = raw_input("Bounding Boxes calculated. Display? (y/n): ")
+	if display=="y":
+		cv2.startWindowThread()
+		cv2.imshow('BoundingBoxes', bounded)
+		cv2.waitKey(1)		
+
 
 	#Extract HOG
 	print("\nExtracting HOG features for all components...")
@@ -77,8 +87,14 @@ def main():
 	display = raw_input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
 		print("\n--------------- RAW CLASSIFICATIONS ---------------")
+		labeled = bounded
 		for i in range(0, len(preds)):
 			print("Component:", i+1, "Classification:", syms[preds[i]])
+			minX, minY, maxX, maxY = bboxes[i]
+			labeled = cv2.putText(labeled,str(syms[preds[i]]),(minY, maxX+30),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,102),3,cv2.LINE_8,False)
+		cv2.startWindowThread()
+		cv2.imshow('Predictions', labeled)
+		cv2.waitKey(1)	
 		print("-------------------- DONE --------------------")
 
 	doGrammar = raw_input("Classification done. Proceed with grammar? (y/n)")

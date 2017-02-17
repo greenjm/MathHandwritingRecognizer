@@ -20,7 +20,7 @@ class connectedComponents:
 	def createComponentMasks(self):
 		labels = self.connectedComponents | self.findConnectedComponents()
 		symbols = []
-		for r in range(self.ccCount):
+		for r in range(1,self.ccCount):
 			symbols.append(labels)
 
 		for r in range(1, self.ccCount):
