@@ -6,7 +6,7 @@ Created on Sun Feb 12 21:37:35 2017
 """
 import cv2
 import numpy as np
-
+import math
 def boundingBox(img):
     minX = len(img)
     maxX = 0
@@ -41,8 +41,32 @@ def resizedBoundBox(symbolArray):
         img = np.array(symbolArray[i])
         (minX, minY, maxX, maxY) = boundingBox(img)
         character = img[minX:maxX+1, minY:maxY+1]
+        character = character.astype(float)
+        w = maxY-minY
+        h = maxX-minX
+        char = np.zeros(45)
+        if h>w:
+            fy = 45.0/h
+            character = cv2.resize(character,(int(math.floor(fy*w)),45))
+            left = np.zeros((45,int(math.floor((45-fy*w)/2))))
+            right = np.zeros((45,int(math.ceil((45-fy*w)/2))))
+            print left.shape
+            print right.shape
+            print character.shape
+            character = np.hstack((left,character,right))
+        elif w>h:
+            fx = 45.0/w
+            character = cv2.resize(character,(45,int(math.floor(fx*h))))
+            top = np.zeros((int(math.floor((45-fx*h)/2)),45))
+            bot = np.zeros((int(math.ceil((45-fx*h)/2)),45))
+            print top.shape
+            print bot.shape
+            print character.shape
+            character = np.vstack((top.astype(int),character.astype(int),bot.astype(int)))
+
 
         character = character.astype(float)
+        
 
         characters.append(cv2.resize(character,(45,45)))
     return characters
