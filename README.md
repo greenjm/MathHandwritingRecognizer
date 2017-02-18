@@ -2,17 +2,19 @@
 
 ## Installation
 
-- If you have Python 2.7 installed, pull the Py27 branch. Pull the master branch for the Python 3 version.
-- This project relies on several Python packages: OpenCV, Numpy, SciPy, and Scikit-learn
-  -Scikit-learn relies on Numpy and SciPy. We can try installing these two with pip with the following commands:
-    -`pip install numpy` and `pip install scipy`
-  -Then, install the latest version of scikit with `pip install -U scikit-learn`
-  -We ran into issues with this method, and had to install Numpy and SciPy using pre-built Windows binaries from [http://www.lfd.uci.edu/~gohlke/pythonlibs/](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
-  -Download the latest Numpy and SciPy packages based on Python version ![Numpy](https://github.com/greenjm/MathHandwritingRecognizer/blob/master/images/numpy.PNG "Numpy package")![SciPy](https://github.com/greenjm/MathHandwritingRecognizer/blob/master/images/scipy.PNG "SciPy package")
-  -Install each with `pip install path/to/whl-file.whl`
-  -For Python 2.7, OpenCV can be installed by following the instructions at [http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html](http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html)
-  -For all versions, you can install a whl file from the same place as Numpy and SciPy ![OpenCV](https://github.com/greenjm/MathHandwritingRecognizer/blob/master/images/opencv.PNG "OpenCV package")
-  -Install with `pip install path/to/whl-file.whl`
+If you have Python 2.7 installed, pull the Py27 branch. Pull the master branch for the Python 3 version.
+This project relies on several Python packages: OpenCV, Numpy, SciPy, and Scikit-learn
+  Scikit-learn relies on Numpy and SciPy. We can try installing these two with pip with the following commands:
+    `pip install numpy` and `pip install scipy`
+  Then, install the latest version of scikit with `pip install -U scikit-learn`
+  We ran into issues with this method, and had to install Numpy and SciPy using pre-built Windows binaries from [http://www.lfd.uci.edu/~gohlke/pythonlibs/](http://www.lfd.uci.edu/~gohlke/pythonlibs/)
+  Download the latest Numpy and SciPy packages based on Python version ![Numpy](https://github.com/greenjm/MathHandwritingRecognizer/blob/master/images/numpy.PNG "Numpy package")![SciPy](https://github.com/greenjm/MathHandwritingRecognizer/blob/master/images/scipy.PNG "SciPy package")
+  
+  Install each with `pip install path/to/whl-file.whl`
+  For Python 2.7, OpenCV can be installed by following the instructions at [http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html](http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html)
+  For all versions, you can install a whl file from the same place as Numpy and SciPy ![OpenCV](https://github.com/greenjm/MathHandwritingRecognizer/blob/master/images/opencv.PNG "OpenCV package")
+  
+  Install with `pip install path/to/whl-file.whl`
 After completing these steps, you should be ready to run the project.
 
 ## Dataset and Training
@@ -30,8 +32,8 @@ There are two options for executing the program. If you have a webcam installed,
 
 - Open a terminal and navigate to the project folder
 - To use a webcam, run `python main.py`
-  -Your webcam should launch in a new window. Press enter to take an image of an expression, then follow the printed instructions to run the program
-- To use an existing image, run `python main.py path/to/image` and follow the instructions to run the program
+- Your webcam should launch in a new window. Press enter to take an image of an expression, then follow the printed instructions to run the program
+- To use an existing image, run `python main.py path/to/image` and follow the instructions to run the program. The examples folder contains several images that you can use to test classification
 
 ## Explanation of other files
 
@@ -67,3 +69,7 @@ Contains two functions that return dictionaries. getDict() returns a dictionary 
 
 **xycut.py:**
 This file is used for the first step of grammar parsing. XYcut() takes an array of all bounding boxes in the image, and returns a tree built with Tree.py that informs a parser of the ordering of elements in the image.
+
+## Experimental files
+
+graph.py and convolutional_mlp.py are still quite recent to the project. They are not yet a part of the main pipeline executed with main.py, and using them could have unexpected results.
