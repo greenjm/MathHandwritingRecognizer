@@ -50,7 +50,7 @@ def main():
 	components = conn.findConnectedComponents()
 	symbols = conn.createComponentMasks()
 	# print(conn.ccCount)
-	input("Found connected components. Press any button to continue.")
+	input("Found connected components. Press enter to continue.")
 
 	#Bounding Boxes (raw and resized)
 	print("\nGathering bounding boxes...")
@@ -79,7 +79,7 @@ def main():
 				)
 			)
 		))
-	input("All features extracted. Press any button to begin classifying")
+	input("All features extracted. Press enter to begin classifying")
 
 	#SVM Classification
 	syms = d.getDict()
@@ -123,7 +123,7 @@ def main():
 		#Symbol combination
 
 	#Program Ended
-	input("End of program. Press any button to quit.")
+	input("End of program. Press enter to quit.")
 
 if __name__=="__main__":
 	main()
