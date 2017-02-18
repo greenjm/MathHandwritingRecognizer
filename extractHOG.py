@@ -8,6 +8,9 @@ import cv2
 import numpy as np
 
 def extractHOG(image):
+    """
+    Given an image of size 45x45, returns a HOG feature vector
+    """
     image = deskew(image)
     winSize = (45,45)
     blockSize = (21,21)

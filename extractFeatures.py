@@ -4,6 +4,10 @@ import math
 
 
 def extractFeatures(bwimage):
+    """
+    Given an image, returns a feature array containing
+    circularity, elongation, and principal axes.
+    """
             
             
     # circularity

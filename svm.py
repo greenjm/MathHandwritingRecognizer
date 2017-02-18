@@ -25,26 +25,10 @@ def findOptimalSVM(data, target, fileId):
 	clf.fit(data, target)
 
 	cwd = os.path.dirname(os.path.realpath(__file__))
-	#i = 0
 	filepath = os.path.join(cwd, str(fileId) + CLF_FILENAME)
-	#while os.path.exists(filepath):
-	#	i = i + 1
-	#	filepath = os.path.join(cwd, str(i) + CLF_FILENAME)
-
 	joblib.dump(clf, filepath)
 
 def classify(data, clf):
-	"""
-	Given a dataset of the same form used for training
-	in findOptimalSVM() and a classifier, returns a classification
-	array using the optimal SVM.
-	NOTE: data should be an array of feature arrays, even for
-	classifying one object e.g. [[1, 2, 3]]
-	"""
-	#global CLF
-	#if CLF is None:
-	#	cwd = os.path.dirname(os.path.realpath(__file__))
-	#	CLF = joblib.load(cwd + CLF_FILENAME)
 	return clf.predict(data)
 
 def voteClassify(data, numClfs, start):
@@ -60,13 +44,10 @@ def voteClassify(data, numClfs, start):
 	for i in range(start, start+numClfs):
 		filepath = os.path.join(cwd, str(i) + CLF_FILENAME)
 		clfs.append(joblib.load(filepath))
-	#for clf in clfs:
-	#	preds.append(clf.predict(data))
 	for i in range(0, len(data)):
 		votes = dict()
 		for j in range(start, start+numClfs):
 			vote = clfs[j-start].predict([data[i]])[0]
 			votes[vote] = votes.get(vote, 0) + (accuracies[j] * 1)
 		res.append(max(votes, key = lambda x: votes.get(x)))
-		#sys.stdout.write(".")
 	return res

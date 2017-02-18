@@ -79,12 +79,20 @@ def cut(tree, node, vertCut, threshold):
 	return changeFlag
 
 def getVThreshold(bboxes):
+	"""
+	Calculates the threshold to use for vertical cutting
+	given a list of bounding boxes
+	"""
 	avg = 0
 	for box in bboxes:
 		avg = avg + (box[2] - box[0])
 	return 0.25 * (avg / len(bboxes))
 
 def getHThreshold(bboxes):
+	"""
+	Calculates the threshold to use for horizontal
+	cutting given a list of bounding boxes
+	"""
 	avg = 0
 	for box in bboxes:
 		avg = avg + (box[3] - box[1])
