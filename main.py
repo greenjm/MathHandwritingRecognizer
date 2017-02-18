@@ -84,7 +84,7 @@ def main():
 	#SVM Classification
 	syms = d.getDict()
 	print("\nSending features for classification by voting...")
-	preds = svm.voteClassify(features, 5, 5)
+	preds = svm.voteClassify(features, 5, 0)
 	display = input("Raw classification complete. Display? (y/n): ")
 	if display=="y":
 		# print("\n--------------- RAW CLASSIFICATIONS ---------------")
