@@ -69,3 +69,7 @@ Contains two functions that return dictionaries. getDict() returns a dictionary 
 
 **xycut.py:**
 This file is used for the first step of grammar parsing. XYcut() takes an array of all bounding boxes in the image, and returns a tree built with Tree.py that informs a parser of the ordering of elements in the image.
+
+## Experimental files
+
+graph.py and convolutional_mlp.py are still quite recent to the project. They are not yet a part of the main pipeline executed with main.py, and using them could have unexpected results.
