@@ -7,6 +7,10 @@ import cv2
 import numpy as np
 import math
 def boundingBox(img):
+    """
+    Given an img containing a single component,
+    returns the bounding box of the component.
+    """
     minX = len(img)
     maxX = 0
     minY = len(img[0])
@@ -27,6 +31,10 @@ def boundingBox(img):
     return ret
 
 def rawBoundingBox(symbolArray):
+    """
+    Given an array of single component binary
+    masks, returns an array of bounding boxes
+    """
     boxes = []
     for i in range(len(symbolArray)):
         img = symbolArray[i]
@@ -35,6 +43,11 @@ def rawBoundingBox(symbolArray):
     return boxes
     
 def resizedBoundBox(symbolArray):
+    """
+    Given an array of single component binary
+    masks, returns an array of bounding boxes
+    that have been resized to 45x45
+    """
     characters = []
     for i in range(len(symbolArray)):
         img = np.array(symbolArray[i])
