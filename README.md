@@ -32,8 +32,8 @@ There are two options for executing the program. If you have a webcam installed,
 
 - Open a terminal and navigate to the project folder
 - To use a webcam, run `python main.py`
-..-Your webcam should launch in a new window. Press enter to take an image of an expression, then follow the printed instructions to run the program
-- To use an existing image, run `python main.py path/to/image` and follow the instructions to run the program
+- Your webcam should launch in a new window. Press enter to take an image of an expression, then follow the printed instructions to run the program
+- To use an existing image, run `python main.py path/to/image` and follow the instructions to run the program. The examples folder contains several images that you can use to test classification
 
 ## Explanation of other files
 
