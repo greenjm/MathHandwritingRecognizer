@@ -41,7 +41,7 @@ There are two options for executing the program. If you have a webcam installed,
 This file contains all of the functions necessary to find both the raw bounding boxes and the resized bounding boxes. Raw bounding boxes are used in grammar, and the resized boxes are used for classification.
 
 **camera.py:**
-A useful helper file for taking and storing images. Not necessary to the workflow.
+A useful helper file for taking and storing images. Not necessary to the workflow. Run `python camera.py` and press 'p' to take a picture. Make sure the filepath is updated.
 
 **connectedComponents.py:**
 This file contains a class with all functions related to connected components. There are functions for finding the connected components mask, and for gathering an array of masks, with each containing exactly one component.
