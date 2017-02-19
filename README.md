@@ -24,7 +24,7 @@ After completing these steps, you should be ready to run the project.
 - Replace each "FILEPATH" in runTraining.py with the path to the dataset folder that you downloaded above.
 - symbolDict.py contains a method called getAccuracies. This has been filled with the accuracies discovered during our testing. This dictionary must contain each classifier's accuracy in order for the getVotingAccuracy() call to work.
 - To skip training and move straight to classifying real images, download the classifiers we trained from [https://drive.google.com/file/d/0B-uMaCuZp5_eeHRhZjJjRUxQbGc/view?usp=sharing](https://drive.google.com/file/d/0B-uMaCuZp5_eeHRhZjJjRUxQbGc/view?usp=sharing) and extract them into the project folder.
-Once you have the trained classifiers, and the accuracies have been filled in to 
+Once you have the trained classifiers, and the accuracies have been filled in, you can begin running the main program.
 
 ## Run the program
 
